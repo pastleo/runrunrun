@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>TAIWAN RUN</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+                    body{
+                        background-color: #f9db0b;
+                        text-align:center;
+                    }
+                    .space {
+                        height: 20px;
+                    }
+                    .my-logo-container{
+                        margin-right: 20px;
+                        margin-left:20px;
+                        height:100px;
+                    }
+                    .title{
+                        margin-top: 31px;
+                        text-align: left;
+                        font-weight: bold;
+                        text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+                    }
+                    .show-box{
+                        border:#FFFFFF 5px solid;
+                        height: 290px;
+                        border-radius:5px;
+                    }
+                    .code-text{
+                        position: absolute;
+                        right: 50%;
+                        bottom: 150px;
+                    }
+                    .code{
+                        position: absolute;
+                        border:#f77384 5px solid;
+                        border-radius:5px;
+                        padding: 2px;
+                        padding-right: 30px;
+                        padding-left: 30px;
+                    }
+                    .step{
+                        color:#ffffff;
+                        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+                    }
+        </style>
+    </head>
+    <body>
+        <div class="space"></div>
+        <div class="my-logo-container">
+            <div class="col-xs-12 col-sm-3" ><img src="/images/logo-s.png" alt="TAIWAN RUN"></div>
+            <div class="col-xs-12 col-sm-8"><h1 class="title">HOW TO WORK?</h1></div>
+        </div>
+        <div class="space"></div>
+
+        <div class="container">
+            <div class="col-xs-12 col-sm-4"><h2 class="step">STEP1</h2><h4>Download our app</h4>
+                <div class="show-box"><h4>TAIWAN RUN JOYSTICK</h4></div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+                <h2 class="step">STEP2</h2><h4>Enter your code to connection</h4>
+                <div class="show-box"><div class="code-text">
+                    <h4>Your code:</h4><div class="code">
+                    <h1><%= code %></h1>
+                </div></div>
+            <img src="/images/show_phone.png" class="img-responsive center-block" alt=""></div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+                <h2 class="step">STEP3</h2><h4>Let’s shake your phone to start</h4>
+                <div class="show-box"><img src="/images/show_shake.png" class="img-responsive center-block" alt=""></div>
+            </div>
+        </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script>
+        jQuery(document).ready(function(){
+            var code = <%= code %>;
+            var player = <%= player %>;
+            io.socket.get("/activate/" + code, function (data, jwres){
+                //Sends a virtual GET request to a Sails server using Socket.io.
+                console.log("Connected");
+            });
+            io.socket.on("message", function(event){
+                console.log(event.msg);
+                    if(event.player_cnt>=player){
+                        location.href="/character/"+code+"/"+player;
+                    }
+            });
+        });
+    </script>
+</body>
+</html>

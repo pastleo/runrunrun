@@ -1,0 +1,138 @@
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>TAIWAN RUN</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+            body{
+                background-color: #6ac8f2;
+                text-align:center;
+            }
+            .space {
+                height: 20px;
+            }
+            .my-logo-container{
+                margin-right: 20px;
+                margin-left:20px;
+                height:100px;
+            }
+            .title{
+                margin-top: 31px;
+                text-align: left;
+                font-weight: bold;
+                text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+            }
+            .track{
+                position: absolute;
+                height: 400px;
+                width: 100%;
+                background-color:#86c12c; 
+                bottom: 0px;
+            }
+            .divider{
+                border-bottom-style: dashed;
+                border-bottom-color: #cccccc;
+                position: relative;
+                top: 50%;
+                bottom: 50%;
+            }
+            .finishline{
+                border-right-style: dashed;
+                border-right-color: #e50032;
+                position: relative;
+                right: 10%;
+                height: 400px;
+            }
+            .character{
+                margin:20px;
+                position: absolute;
+            }
+            #signboard{
+                position: absolute;
+                left: 30%;
+                right: 30%;
+                top: -50px;
+                width: 400px;
+                height: 200px;
+                background-color: #333;
+            }
+            #player1{
+                
+            }
+            #player2{
+
+                top:50%;
+            }
+            #run-animat {
+                position: absolute;
+                folat:100px;
+                width: 100%;
+                height: 250px;
+                margin:0px auto;
+                background: url("/images/game_background_animat.png") repeat-x;
+                -webkit-animation: backgroundScroll 20s linear infinite;
+                animation: backgroundScroll 20s linear infinite;
+            }
+             
+            @-webkit-keyframes backgroundScroll {
+                from {background-position: 1191px 0;}
+                to {background-position: 0 0;}
+            }
+             
+            @keyframes backgroundScroll {
+                from {background-position: 1191px 0;}
+                to {background-position: 0 0;}
+            }
+    </style>   
+    </head>
+
+    <body>
+        
+        <div id="run-animat"></div>
+
+        <div class="space"></div>
+        <div class="my-logo-container">
+            <div class="col-xs-12 col-sm-3"><img src="/images/logo-s.png" alt="TAIWAN RUN"></div>
+            <div class="col-xs-12 col-sm-8"><h1 class="title">START!!!</h1></div>
+        </div>
+        
+        <div class="track">
+        <!--<div id="signboard"></div>-->
+
+        <div id="player1" class="character">
+        <img src="/images/character_1-<%= choose_1p %>.png" alt="character_1p"></div>
+
+        <div class="divider"></div>
+
+        <div id="player2" class="character">
+        <img src="/images/character_1-<%= choose_2p %>.png" alt="character_1p"></div>
+
+        <div class="finishline"></div></div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+
+        <script>
+            jQuery(document).ready(function(){
+                var code = <%= code %>;
+                var target_step = 30;
+
+                io.socket.get("/activate/" + code, function (data, jwres){
+                    //Sends a virtual GET request to a Sails server using Socket.io.
+                    console.log("Connected");
+                });
+
+                io.socket.on("run", function(event){
+                    jQuery("#player"+event.p).css( "left", event.step/target_step*100+"%" );
+                    console.log(event);
+                });
+
+            });
+        </script>
+
+    </body>
+</html>

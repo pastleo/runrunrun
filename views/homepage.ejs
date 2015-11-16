@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>TAIWAN RUN</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+                body{
+                    background: url(/images/index_background_fixed.png);
+                    background-color:#ff9999;
+                    background-position: 0px;
+                    color:#ffffff;
+                }
+                .btn.btn-my-theme {
+                    height: 60px;
+                    font-size: 28px;
+                    background-color: #ffffff;
+                    color: #42210B;
+                    margin-top: 10px;
+                    box-shadow: 5px 5px #42210B;
+                }
+                .btn.btn-my-theme:hover {
+                    background-color: #E8E8E8;
+                    color: #725A3D;
+                }
+                .btn.btn-my-theme.active, .btn.btn-my-theme:active {
+                    background-color: #CCCCCC;
+                    color: #42210B;
+                }
+                .site_wrapper{
+                    margin-left: 15%;
+                    margin-right: 15%;
+                    position: relative;
+                }
+                .space {
+                    height: 80px;
+                }
+                #run-animat {
+                position: absolute;
+                width: 100%;
+                height: 335px;
+                margin:0px auto;
+                background: url("/images/index_background_animat.png") repeat-x;
+                -webkit-animation: backgroundScroll 20s linear infinite;
+                animation: backgroundScroll 20s linear infinite;
+                }
+                 
+                @-webkit-keyframes backgroundScroll {
+                from {background-position: 0 0;}
+                to {background-position: 1280px 0;}
+                }
+                 
+                @keyframes backgroundScroll {
+                from {background-position: 0 0;}
+                to {background-position: 1280px 0;}
+                }
+                #logo_run{
+                    margin-left: auto;
+                    margin-right: auto;
+                    max-height: 300px;
+                }
+
+
+        </style>
+    </head>
+    <body>
+
+        <audio src="/audio/Bike_Rides.mp3" loop> </audio>
+
+        <button type="button" class="btn btn-default btn-lg" id="audioplay">
+          <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+        </button>
+
+        <div id="run-animat"></div>
+        <div class="site_wrapper">
+            <div class="space"></div>
+            <img id="logo_run" class="img-responsive" src="/images/index_logo.png" alt="RUN">
+        </div>
+        <h3 class="text-center">Use your smart phone as a joystick,<br> shake your phone to move your character run.</h3>
+
+        <div class="container">
+            <div class="col-md-1 visible-md visible-lg"></div>
+            <div class="col-md-5 col-xs-12">
+                <a href="/code_player/1" class="btn btn-my-theme btn-lg btn-block" role="button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span>　1 PLAYER</a>
+            </div>
+            <div class="col-md-5 col-xs-12">
+                <a href="/code_player/2" class="btn btn-my-theme btn-lg btn-block" role="button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span>　2 PLAYERS</a>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script> 
+        var currentFile = "/audio/Bike_Rides.mp3";
+        function playAudio() {
+            // Check for audio element support.
+            if (window.HTMLAudioElement) {
+                try {
+                    var oAudio = document.getElementById('myaudio');
+                    var btn = document.getElementById('play'); 
+                    var audioURL = document.getElementById('audiofile'); 
+
+                    //Skip loading if current file hasn't changed.
+                    if (audioURL.value !== currentFile) {
+                        oAudio.src = audioURL.value;
+                        currentFile = audioURL.value;                       
+                    }
+
+                    // Tests the paused attribute and set state. 
+                    if (oAudio.paused) {
+                        oAudio.play();
+                        btn.textContent = "Pause";
+                    }
+                    else {
+                        oAudio.pause();
+                        btn.textContent = "Play";
+                    }
+                }
+                catch (e) {
+                    // Fail silently but show in F12 developer tools console
+                     if(window.console && console.error("Error:" + e));
+                }
+            }
+        }
+        jQuery(document).ready(playAudio);
+        </script>
+    </body>
+</html>
