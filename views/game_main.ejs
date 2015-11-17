@@ -49,6 +49,7 @@
             .character{
                 margin:20px;
                 position: absolute;
+                transition: left 0.5s ease-out;
             }
             #signboard{
                 position: absolute;
@@ -68,23 +69,22 @@
             }
             #run-animat {
                 position: absolute;
-                folat:100px;
-                width: 100%;
-                height: 250px;
-                margin:0px auto;
                 background: url("/images/game_background_animat.png") repeat-x;
                 -webkit-animation: backgroundScroll 20s linear infinite;
                 animation: backgroundScroll 20s linear infinite;
                 bottom: 400px;
+                height: 324px;
+                left: 0;
+                right: 0;
             }
              
             @-webkit-keyframes backgroundScroll {
-                from {background-position: 1191px 0;}
+                from {background-position: 1108px 0;}
                 to {background-position: 0 0;}
             }
              
             @keyframes backgroundScroll {
-                from {background-position: 1191px 0;}
+                from {background-position: 1108px 0;}
                 to {background-position: 0 0;}
             }
     </style>   
@@ -103,15 +103,29 @@
         <div class="track">
         <!--<div id="signboard"></div>-->
 
-        <div id="player1" class="character">
+        <div id="player1" style="left:0%;" class="character">
         <img src="/images/character_1-<%= choose_1p %>.png" alt="character_1p"></div>
 
         <div class="divider"></div>
 
-        <div id="player2" class="character">
+        <div id="player2" style="left:0%;" class="character">
         <img src="/images/character_1-<%= choose_2p %>.png" alt="character_1p"></div>
 
         <div class="finishline"></div></div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <img class="img-responsive block-center" src="/images/end.png" />
+              </div>
+              <div class="modal-footer">
+                <a type="button" href="/" class="btn btn-primary">Yeah!</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -121,6 +135,7 @@
             jQuery(document).ready(function(){
                 var code = <%= code %>;
                 var target_step = 30;
+                var ended = false;
 
                 io.socket.get("/activate/" + code, function (data, jwres){
                     //Sends a virtual GET request to a Sails server using Socket.io.
@@ -128,6 +143,13 @@
                 });
 
                 io.socket.on("run", function(event){
+                    if(ended) return;
+                    if(event.step >= 24){
+                        jQuery("#myModal").modal();
+                        event.step = target_step;
+                        ended = true;
+                    }
+
                     jQuery("#player"+event.p).css( "left", event.step/target_step*100+"%" );
                     console.log(event);
                 });
