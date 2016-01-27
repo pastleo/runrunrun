@@ -39,7 +39,7 @@ module.exports.routes = {
   '/code_player/:player':'MainController.show_code',
   '/activate/:code':'MainController.activate',
   '/validate/:code':'MainController.validate',// for android
-  '/game_main/:code/:choose_1p/:choose_2p':'MainController.game_main',
+  '/game_main/:code/:choose_1p/:choose_2p/:player':'MainController.game_main',
   '/run/:code/:p/:step':'MainController.run',// for android send steps
   '/choose/:code/:p/:choose/:submit':'MainController.choose',// for android choose character
   '/character/:code/:player':'MainController.character'

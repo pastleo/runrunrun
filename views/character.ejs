@@ -120,7 +120,8 @@
                 io.socket.on("choose", function(event){
                         if (player == 1){ //1player
                             if (event.submit == 't'){
-                                location.href="/game_main/"+code+"/"+event.choose+"/"+"0";
+                                var computer_choose = Math.floor(Math.random() * 4);
+                                location.href="/game_main/"+code+"/"+event.choose+"/"+computer_choose+"/1";
                             }
                             else {
                                 $( "#1p" ).appendTo( $( ".player" ).eq(event.choose) );
@@ -146,7 +147,7 @@
 
                             if (choose_1p != undefined && choose_2p != undefined){
                                 
-                                location.href="/game_main/"+code+"/"+choose_1p+"/"+choose_2p;  
+                                location.href="/game_main/"+code+"/"+choose_1p+"/"+choose_2p+"/2";
                             }
                             
                         }

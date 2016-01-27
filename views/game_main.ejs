@@ -134,6 +134,7 @@
         <script>
             jQuery(document).ready(function(){
                 var code = <%= code %>;
+                var player = <%= player %>;
                 var target_step = 30;
                 var ended = false;
 
@@ -142,7 +143,7 @@
                     console.log("Connected");
                 });
 
-                io.socket.on("run", function(event){
+                function reciver(event){
                     if(ended) return;
                     if(event.step >= 24){
                         jQuery("#myModal").modal();
@@ -152,8 +153,17 @@
 
                     jQuery("#player"+event.p).css( "left", event.step/target_step*100+"%" );
                     console.log(event);
-                });
+                }
+                
+                if(player == 1){
+                    var computer_step = 0;
+                    setInterval(function(){
+                        reciver({step: computer_step,p: 2});
+                        computer_step += Math.floor(Math.random() * 3)
+                    },1000);
+                }
 
+                io.socket.on("run", reciver);
             });
         </script>
 

@@ -66,7 +66,8 @@ module.exports = {
         res.view('game_main', {
             code: req.params.code,
             choose_1p: req.params.choose_1p,
-            choose_2p: req.params.choose_2p
+            choose_2p: req.params.choose_2p,
+            player: req.params.player
         });
     },
     run: function(req, res) {
