@@ -1,0 +1,8 @@
+version: '2'
+services:
+  main:
+    build: .
+    ports: ['127.0.0.1:8000:1337']
+    volumes:
+     - .:/workspace
+    restart: always
