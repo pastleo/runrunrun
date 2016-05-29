@@ -1,26 +1,12 @@
-# dockerRun: -v $(pwd):/workspace -d --restart=always -p 127.0.0.1:1337:1337
 
-FROM node:latest
+FROM node:5
 
-RUN \
-mkdir -p /root/workspace; \
-mkdir -p /workspace;
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# Add global (cli) packages to install on demand, ex:
-RUN npm install -g sails
+COPY package.json /usr/src/app/
+RUN npm install; npm install -g sails
+COPY . /usr/src/app
 
-# ADD package.json /root/workspace/
+CMD ["sails", "lift"]
 
-WORKDIR /root/workspace
-
-# RUN npm install
-
-# CMD commands
-# ================
-# for f in $(ls /workspace/); do
-#     if ! [ -e $f ]; then
-#         ln -s /workspace/$f /root/workspace/$f;
-#     fi;
-# done;
-
-CMD bash -c 'for f in $(ls /workspace/); do if ! [ -e $f ]; then ln -s /workspace/$f /root/workspace/$f; fi; done;'; sails lift;

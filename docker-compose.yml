@@ -7,9 +7,9 @@ services:
   main: &main
     build: .
     ports: ['1337:1337']
-    volumes:
-     - .:/workspace
   runrunrun:
     <<: *main
-    ports: ['1337']
+    ports: []
     restart: always
+    networks:
+    - vhosts
