@@ -1,7 +1,15 @@
 version: '2'
+networks:
+  vhosts:
+    external: 
+      name: nginx_vhosts
 services:
   main: &main
     build: .
     ports: ['1337:1337']
     volumes:
      - .:/workspace
+  runrunrun:
+    <<: *main
+    ports: ['1337']
+    restart: always
